@@ -1,0 +1,229 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-image: url('static/background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: #fffdfd;
+}
+
+header {
+  text-align: center;
+  padding: 20px;
+  background-color: transparent;
+}
+
+nav {
+  margin-top: 15px;
+}
+
+nav a {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #e7e1d9;
+  font-weight: bold;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+main {
+  padding: 20px;
+  background-color: transparent;
+  margin: 20px auto;
+  border-radius: 10px;
+  max-width: 90%;
+}
+
+
+/* Grid Layout for Pets and Pet Food */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background-color: rgba(139, 90, 43, 0.7);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(3, 3, 3, 0.2);
+  text-align: center;
+}
+
+.card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Buttons */
+.button {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #5c3d1e;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  margin: 10px;
+  font-size: 18px;
+}
+
+.button:hover {
+  background-color: #7a4f2e;
+}
+
+/* Increment, Decrement, and Add to Cart Buttons */
+.increment, .decrement, .add-to-cart {
+  padding: 8px 24px;
+  font-size: 18px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.increment, .decrement {
+  background-color: #a67c52;
+  color: white;
+}
+
+.increment:hover, .decrement:hover {
+  background-color: #8b5e34;
+}
+
+.add-to-cart {
+  background-color: #5c3d1e;
+  color: white;
+}
+
+.add-to-cart:hover {
+  background-color: #7a4f2e;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 10px;
+  background-color: transparent;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* Payment Container */
+#payment-container {
+  display: flex;
+  gap: 20px; /* Space between cart items and payment form */
+  align-items: flex-start; /* Align items to the top */
+}
+
+#cart-items {
+  flex: 1; /* Take up remaining space */
+  background-color: rgba(139, 69, 19, 0.5);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+#amount-paid {
+  width: 30%; /* Make the input take up the full width of its container */
+  height: 40px; /* Increase the height */
+  padding: 8px; /* Add padding inside the input */
+  font-size: 18px; /* Increase the font size */
+  border: 2px solid #7a4f2e; /* Add a border */
+  border-radius: 5px; /* Rounded corners */
+  box-sizing: border-box; /* Ensure padding and border are included in the width/height */
+}
+
+#payment-form {
+  flex: 1; /* Take up remaining space */
+  background-color: rgba(139, 69, 19, 0.5);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.preview-change {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #5c3d1e;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  margin: 10px;
+  font-size: 18px;
+}
+
+.preview-change:hover {
+  background-color: #7a4f2e;
+}
+
+.submit {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #5c3d1e;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  margin: 10px;
+  font-size: 18px;
+}
+
+.submit:hover {
+  background-color: #7a4f2e;
+}
+
+
+/* Results Section */
+#results {
+  margin-top: 20px;
+  text-align: center;
+}
+
+#denominations {
+  list-style-type: none;
+  padding: 0;
+}
+
+#denominations li {
+  background-color: rgba(121, 51, 19, 0.6);
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+  font-size: 14px;
+  color: white;
+}
+
+#cart-display {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255, 235, 205, 0.7);
+  padding: 10px;
+  border: 1px solid #7a4f2e;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Clear Cart Button */
+.clear-cart {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #5c3d1e;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  margin: 2px;
+  font-size: 18px;
+}
+
+.clear-cart:hover {
+  background-color: #7a4f2e;
+}

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pet Store - Payment</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Welcome to The Untamed Pet Store!🐾</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="pets.html">Pets</a>
+      <a href="pet-food.html">Pet Food</a>
+      <a href="payment.html">Payment</a>
+    </nav>
+  </header>
+  <div id="cart-display">Cart: 0 item(s) - $0.00</div>
+  <main>
+    <section id="payment"> 
+     <div id="payment-container">
+        <div id="cart-items">
+          <h2>Payment Calculator</h2>
+          <h3>Cart Items</h3>
+          <ul id="cart-list"></ul>
+          <p>Total Price: $<span id="total-price">0.00</span></p>
+          <button class="button clear-cart">Clear Cart</button>
+        </div>
+        <form id="payment-form">
+          <label for="amount-paid">Amount Paid ($):</label>
+          <input type="number" id="amount-paid" min="0" step="0.01" required>
+          <button type="button" class="preview-change">Preview Change</button>
+          <button type="submit" class="submit">Pay</button>
+
+          <!-- Results section -->
+          <div id="results">
+            <h3>Results</h3>
+            <p>Change: $<span id="change">0.00</span></p>
+            <p>Change Denominations:</p>
+            <ul id="denominations"></ul>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 The Untamed Pet Store. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Load cart from localStorage
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartList = document.getElementById('cart-list');
+    const totalPriceElement = document.getElementById('total-price');
+    let totalPrice = 0; // Define totalPrice in the global scope
+  
+    // Function to clear the cart
+    function clearCart() {
+      cart = []; // Clear the cart array
+      localStorage.removeItem('cart'); // Remove cart from localStorage
+      updateCartDisplay(); // Update the cart display
+    }
+  
+    // Function to update the cart display
+    function updateCartDisplay() {
+      const cartDisplay = document.getElementById('cart-display');
+      const cartList = document.getElementById('cart-list');
+      const totalPriceElement = document.getElementById('total-price');
+  
+      if (cartDisplay && cartList && totalPriceElement) {
+        let totalItems = 0;
+        totalPrice = 0; // Reset totalPrice before recalculating
+  
+        // Clear the cart list
+        cartList.innerHTML = '';
+  
+        // Calculate total items and price
+        cart.forEach((item) => {
+          const listItem = document.createElement('li');
+          listItem.textContent = `${item.quantity}x ${item.name} - $${(item.price * item.quantity).toFixed(2)}`;
+          cartList.appendChild(listItem);
+          totalItems += item.quantity;
+          totalPrice += item.price * item.quantity;
+        });
+  
+        // Update the cart display
+        cartDisplay.textContent = `Cart: ${totalItems} item(s) - $${totalPrice.toFixed(2)}`;
+        totalPriceElement.textContent = totalPrice.toFixed(2);
+      }
+    }
+  
+    // Display cart items and calculate total price on page load
+    updateCartDisplay();
+  
+    // Payment calculation logic
+    const calculateDenominations = (change) => {
+      const denominations = [100, 50, 20, 10, 5, 1, 0.25, 0.10, 0.05, 0.01];
+      const result = {};
+  
+      denominations.forEach((denomination) => {
+        if (change >= denomination) {
+          const count = Math.floor(change / denomination);
+          result[denomination] = count;
+          change = (change % denomination).toFixed(2);
+        }
+      });
+  
+      return result;
+    };
+  
+    const displayResults = (change, denominations) => {
+      document.getElementById('change').textContent = change.toFixed(2);
+  
+      const denominationsList = document.getElementById('denominations');
+      denominationsList.innerHTML = "";
+  
+      for (const [denomination, count] of Object.entries(denominations)) {
+        const listItem = document.createElement('li');
+        listItem.textContent = `$${denomination}: ${count}`;
+        denominationsList.appendChild(listItem);
+      }
+    };
+  
+    // Function to calculate and display change and denominations
+    function calculateAndDisplayChange() {
+      const amountPaid = parseFloat(document.getElementById('amount-paid').value);
+
+      if (isNaN(amountPaid) || amountPaid < 0) {
+        alert("Please enter a valid amount.");
+        return;
+      }
+
+      if (amountPaid < totalPrice) {
+        alert("Insufficient payment! Please pay the full amount.");
+        return;
+      }
+
+      const change = amountPaid - totalPrice;
+      const denominations = calculateDenominations(change);
+
+      displayResults(change, denominations);
+    }
+
+    // Event listener for "Preview Change" button
+    document.querySelector('.preview-change').addEventListener('click', () => {
+      calculateAndDisplayChange();
+    });
+
+    // Event listener for payment submission
+    document.getElementById('payment-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const amountPaid = parseFloat(document.getElementById('amount-paid').value);
+
+      if (isNaN(amountPaid)) {
+        alert("Please enter a valid amount.");
+        return;
+      }
+
+      if (amountPaid < totalPrice) {
+        alert("Insufficient payment! Please pay the full amount.");
+        return;
+      }
+
+      // Clear the cart after successful payment
+      clearCart();
+      alert('Payment successful! Cart cleared.');
+      location.reload(); // Refresh the page to reflect the changes
+    });
+  
+    // Clear cart
+    document.querySelector('.clear-cart').addEventListener('click', () => {
+      clearCart(); // Clear the cart
+      alert('Cart cleared!');
+      location.reload(); // Refresh the page to reflect the changes
+    });
+  </script>
+</body>
+</html>

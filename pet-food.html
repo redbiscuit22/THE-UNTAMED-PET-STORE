@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pet Store - Pet Food</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Welcome to The Untamed Pet Store!🐾</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="pets.html">Pets</a>
+      <a href="pet-food.html">Pet Food</a>
+      <a href="payment.html">Payment</a>
+    </nav>
+  </header>
+    <div id="cart-display">Cart: 0 item(s) - $0.00</div>
+
+  <main>
+    <section id="pet-food">
+      <h2>Pet Food</h2>
+      <div class="grid">
+        <div class="card">
+          <img src="static/milk.jpg" alt="Milk">
+          <h3>Milk</h3>
+          <p>$5</p>
+          <div class="quantity-controls">
+            <button class="increment">+</button>
+            <span class="quantity">0</span>
+            <button class="decrement">-</button>
+          </div>
+          <button class="add-to-cart" data-name="Milk" data-price="5">Add to Cart</button>
+        </div>
+        <div class="card">
+          <img src="static/bone.jpg" alt="Bone">
+          <h3>Bone</h3>
+          <p>$10</p>
+          <div class="quantity-controls">
+            <button class="increment">+</button>
+            <span class="quantity">0</span>
+            <button class="decrement">-</button>
+          </div>
+          <button class="add-to-cart" data-name="Bone" data-price="10">Add to Cart</button>
+        </div>
+        <div class="card">
+          <img src="static/seeds.jpg" alt="Seeds">
+          <h3>Seeds</h3>
+          <p>$3</p>
+          <div class="quantity-controls">
+            <button class="increment">+</button>
+            <span class="quantity">0</span>
+            <button class="decrement">-</button>
+          </div>
+          <button class="add-to-cart" data-name="Seeds" data-price="3">Add to Cart</button>
+        </div>
+        <div class="card">
+          <img src="static/fish.jpg" alt="Fish">
+          <h3>Fish</h3>
+          <p>$8</p>
+          <div class="quantity-controls">
+            <button class="increment">+</button>
+            <span class="quantity">0</span>
+            <button class="decrement">-</button>
+          </div>
+          <button class="add-to-cart" data-name="Fish" data-price="8">Add to Cart</button>
+        </div>
+        <div class="card">
+          <img src="static/melon.jpg" alt="Melon">
+          <h3>Melon</h3>
+          <p>$7</p>
+          <div class="quantity-controls">
+            <button class="increment">+</button>
+            <span class="quantity">0</span>
+            <button class="decrement">-</button>
+          </div>
+          <button class="add-to-cart" data-name="Melon" data-price="7">Add to Cart</button>
+        </div>
+        <div class="card">
+          <img src="static/banana.jpg" alt="Banana">
+          <h3>Banana</h3>
+          <p>$4</p>
+          <div class="quantity-controls">
+            <button class="increment">+</button>
+            <span class="quantity">0</span>
+            <button class="decrement">-</button>
+          </div>
+          <button class="add-to-cart" data-name="Banana" data-price="4">Add to Cart</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 The Untamed Pet Store. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Initialize cart if it doesn't exist in localStorage
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  
+    // Function to add an item to the cart
+    function addToCart(name, price, quantity) {
+      if (quantity > 0) { // Only add to cart if quantity is greater than 0
+        cart.push({ name, price, quantity });
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartDisplay(); // Update the cart display
+  
+        // Reset the quantity to 0
+        const quantityElement = document.querySelector(`.add-to-cart[data-name="${name}"]`).closest('.card').querySelector('.quantity');
+        quantityElement.textContent = '0';
+      }
+    }
+  
+    // Function to get the cart
+    function getCart() {
+      return cart;
+    }
+  
+    // Function to clear the cart
+    function clearCart() {
+      cart = [];
+      localStorage.removeItem('cart');
+      updateCartDisplay(); // Update the cart display
+    }
+  
+    // Function to update the cart display
+    function updateCartDisplay() {
+      const cartDisplay = document.getElementById('cart-display');
+      if (cartDisplay) {
+        let totalItems = 0;
+        let totalPrice = 0;
+  
+        cart.forEach((item) => {
+          totalItems += item.quantity;
+          totalPrice += item.price * item.quantity;
+        });
+  
+        cartDisplay.innerHTML = `Cart: ${totalItems} item(s) - $${totalPrice.toFixed(2)}`;
+      }
+    }
+  
+    // Add to Cart functionality
+    document.querySelectorAll('.add-to-cart').forEach((button) => {
+      button.addEventListener('click', () => {
+        const name = button.getAttribute('data-name');
+        const price = parseFloat(button.getAttribute('data-price'));
+        const quantity = parseInt(button.closest('.card').querySelector('.quantity').textContent);
+  
+        // Add item to cart
+        addToCart(name, price, quantity);
+      });
+    });
+  
+    // Quantity controls
+    document.querySelectorAll('.quantity-controls').forEach((controls) => {
+      const incrementButton = controls.querySelector('.increment');
+      const decrementButton = controls.querySelector('.decrement');
+      const quantityElement = controls.querySelector('.quantity');
+  
+      incrementButton.addEventListener('click', () => {
+        let quantity = parseInt(quantityElement.textContent);
+        quantity++;
+        quantityElement.textContent = quantity;
+      });
+  
+      decrementButton.addEventListener('click', () => {
+        let quantity = parseInt(quantityElement.textContent);
+        if (quantity > 0) {
+          quantity--;
+          quantityElement.textContent = quantity;
+        }
+      });
+    });
+  
+    // Update cart display on page load
+    updateCartDisplay();
+  </script>
+</body>
+</html>
